@@ -5,7 +5,9 @@ public class Book {
     private static String B = "BOOK";
     private static final String C = "BOOK";
 
+    @MyAnnotation(name = "hi")
     private String a = "a";
+    @MyAnnotation("hoho")
     public String d = "d";
     protected String e = "e";
 

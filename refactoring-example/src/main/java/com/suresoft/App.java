@@ -5,38 +5,30 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) throws ClassNotFoundException {
 
-        // 클래스를 가져오는 3가지 방식
-
-        // 1. type을 가지고 가져오는 방식.
-        Class<Book> bookClass = Book.class;
-        // 클래스 로딩이 끝나면, 클래스 타입의 인스턴스를 만들어서 힙에다 넣어줌.
-
-        // 2. 생성된 객체를 통해 가져오는 방식.
+        // 생성된 객체를 통해 가져오는 방식.
         Book book = new Book();
         Class<? extends Book> aClass = book.getClass(); // 기존에 생성된 클래스를 통해 접근하는 방식.
 
-        // 3. FQCN을 이용해 가져오는 방식.
-        Class<?> aClass2 = Class.forName("com.suresoft.Book"); // Full Qualified Class Name (패키지 종류까지 포함하는 이름)
 
-        // 필드 가져오기
-        Arrays.stream(bookClass.getFields()).forEach(System.out::println); // => 접근 지시자에 의해 가져옴. (public)
-        Arrays.stream(bookClass.getDeclaredFields()).forEach(System.out::println); // => 접근 지시자 상관없이 다 가져오기
+        // BookClass에 어노테이션을 붙인 후 어노테이션을 조회하면 실행이 될까? --> 아무것도 안나옴.
+        Arrays.stream(Book.class.getAnnotations()).forEach(System.out::println);
 
-        // 필드에 들어있는 값까지 가져오기
+        // 어노테이션은 기본적으로 주석(commnent)와 같은 취급을 받음. 기본적으론 클래스까지 나오지만, 바이트코드를 로딩할 때는, 메모리에 남지 않고, 어노테이션은 빼고 읽어옴.
+        // 따라서 만약 런타임 시에도 남겨두고 싶다면, @Retention(RetentionPolicy.RUNTIME)을 선언해야함.
+
         Arrays.stream(aClass.getDeclaredFields()).forEach(f -> {
-            f.setAccessible(true);
-            try {
-                System.out.printf("%s %s\n", f, f.get(book));
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            Arrays.stream(f.getAnnotations()).forEach(a -> {
+                if (a instanceof MyAnnotation){ // 필드에 어노테이션이 달려있는지 확인해서 가져옴.
+                    MyAnnotation myAnnotation = (MyAnnotation) a;
+                    System.out.println(myAnnotation.value());
+                    System.out.println(myAnnotation.name());
+                }
+
+                }
+            );
+
+
         });
 
-        System.out.println("==메소드 가져오기==");
-        Arrays.stream(aClass.getDeclaredMethods()).forEach(System.out::println);
-        System.out.println("==생성자 가져오기==");
-        Arrays.stream(aClass.getConstructors()).forEach(System.out::println);
-        System.out.println("==인터페이스 가져오기==");
-        Arrays.stream(MyBook.class.getInterfaces()).forEach(System.out::println);
     }
 }
