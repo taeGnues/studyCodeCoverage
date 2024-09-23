@@ -1,20 +1,17 @@
 package com.suresoft;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.implementation.FixedValue;
-
-import java.io.File;
 import java.io.IOException;
-
-import static net.bytebuddy.matcher.ElementMatchers.named;
 
 public class Masulsa {
     public static void main(String[] args) throws IOException {
-        System.out.println(new Moja().pullOut());
-
-//        new ByteBuddy().redefine(Moja.class)
+//        ClassLoader classLoader = Masulsa.class.getClassLoader();
+//        TypePool typePool = TypePool.Default.of(classLoader);
+//
+//        new ByteBuddy().redefine(typePool.describe("com.suresoft.Moja").resolve(), ClassFileLocator.ForClassLoader.of(classLoader))
 //                .method(named("pullOut")).intercept(FixedValue.value("Rabbit!"))
 //                .make().saveIn(new File("C:\\Users\\sure\\IdeaProjects\\studyCodeCoverage\\studyCodeCoverage\\target\\classes"));
+
+        System.out.println(new Moja().pullOut());
     }
 }
 
@@ -31,5 +28,6 @@ moja라는 클래스는 1개지만, 실제로는 JVM에서는 2개임. (Full pac
 
 토끼를 꺼내는 마술도, 코드를 실행하지 않고 바로 측정되게 할 수 있음. (즉, Bytebuddy로 쓰지 않고 바로 Moja().pullout()으로 되게)
 
+Moja를 꺼냈을 때, 이미 바이트코드가 조작된 상태로 되도록 바꿔야함.
 
  */
