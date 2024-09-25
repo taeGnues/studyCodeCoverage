@@ -1,34 +1,45 @@
 package com.suresoft;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class App {
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
 
-        // 생성된 객체를 통해 가져오는 방식.
-        Book book = new Book();
-        Class<? extends Book> aClass = book.getClass(); // 기존에 생성된 클래스를 통해 접근하는 방식.
+        // ----------- 생성자
 
+        Class<?> bookClass = Class.forName("com.suresoft.Book"); // 클래스 로딩 발생
+        Constructor<?> constructor = bookClass.getConstructor(null); // 기본 생성자 가져오기 (null를 파라미터로 받음)
+        Constructor<?> constructorString = bookClass.getConstructor(String.class);
+        Book book = (Book) constructor.newInstance(); // 객체 생성
+        Book book2 = (Book) constructorString.newInstance("myBook");
+        System.out.println(book);
+        System.out.println(book2);
 
-        // BookClass에 어노테이션을 붙인 후 어노테이션을 조회하면 실행이 될까? --> 아무것도 안나옴.
-        Arrays.stream(Book.class.getAnnotations()).forEach(System.out::println);
+        // ----------- 필드
 
-        // 어노테이션은 기본적으로 주석(commnent)와 같은 취급을 받음. 기본적으론 클래스까지 나오지만, 바이트코드를 로딩할 때는, 메모리에 남지 않고, 어노테이션은 빼고 읽어옴.
-        // 따라서 만약 런타임 시에도 남겨두고 싶다면, @Retention(RetentionPolicy.RUNTIME)을 선언해야함.
+        Field a = Book.class.getDeclaredField("A"); // A는 static한 필드임.
+        System.out.println(a.get(null));
+        a.set(null,"AAAAA");
+        System.out.println(a.get(null));
 
-        Arrays.stream(aClass.getDeclaredFields()).forEach(f -> {
-            Arrays.stream(f.getAnnotations()).forEach(a -> {
-                if (a instanceof MyAnnotation){ // 필드에 어노테이션이 달려있는지 확인해서 가져옴.
-                    MyAnnotation myAnnotation = (MyAnnotation) a;
-                    System.out.println(myAnnotation.value());
-                    System.out.println(myAnnotation.name());
-                }
+        Field b = Book.class.getDeclaredField("B"); // B는 인스턴스의 필드임. 따라서 바로 가져오지 못함.
+        b.setAccessible(true); // 접근지시자 무시
+        System.out.println(b.get(book));
+        b.set(book, "BBBBB");
+        System.out.println(b.get(book));
 
-                }
-            );
+        // ----------- 메소드
 
+        Method c = Book.class.getDeclaredMethod("c");
+        c.setAccessible(true);
+        c.invoke(book);  // 특정 인스턴스에 해당하는 메소드 실행. 단, private이므로 수정필요
 
-        });
-
+        Method d = Book.class.getDeclaredMethod("sum", int.class, int.class); // 파라미터 타입을 줘야함.
+        int invoke = (int) d.invoke(book, 1, 2);
+        System.out.println(invoke);
     }
 }
