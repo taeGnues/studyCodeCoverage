@@ -9,20 +9,24 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>refactoring-example</artifactId>
-
+    <artifactId>test-custom-di</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.suresoft</groupId>
+            <artifactId>studyCodeCoverage</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.suresoft</groupId>
+            <artifactId>refactoring-example</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
 </project>
