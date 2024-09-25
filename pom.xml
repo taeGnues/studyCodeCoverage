@@ -12,6 +12,7 @@
         <module>MasulsaAgent</module>
         <module>Masul</module>
         <module>refactoring-example</module>
+        <module>test-custom-di</module>
     </modules>
 
     <properties>
