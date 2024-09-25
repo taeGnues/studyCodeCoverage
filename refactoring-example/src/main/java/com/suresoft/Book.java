@@ -2,33 +2,18 @@ package com.suresoft;
 
 public class Book {
 
-    private static String B = "BOOK";
-    private static final String C = "BOOK";
+    public static String A = "A";
 
-    @MyAnnotation(name = "hi")
-    private String a = "a";
-    @MyAnnotation("hoho")
-    public String d = "d";
-    protected String e = "e";
+    private String B = "B";
 
-    public Book(){
+    private void c(){
+        System.out.println("C");
     }
 
-    public Book(String a, String d, String e){
-        this.a = a;
-        this.d = d;
-        this.e = e;
+    public int sum(int left, int right){
+        return left+right;
     }
 
-    private void f(){
-        System.out.println("F");
-    }
-
-    public void g() {
-        System.out.println("g");
-    }
-
-    public int h(){
-        return 100;
-    }
+    public Book(){}
+    public Book(String b){this.B=b;}
 }
