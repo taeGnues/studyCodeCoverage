@@ -13,6 +13,7 @@
         <module>Masul</module>
         <module>refactoring-example</module>
         <module>test-custom-di</module>
+        <module>lombok-demo</module>
     </modules>
 
     <properties>

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 public class DefaultBookService implements BookService {
 
-//    BookRepository bookRepository;
+    BookRepository bookRepository;
 //
 //    public DefaultBookService(BookRepository bookRepository) {
 //        this.bookRepository = bookRepository;
