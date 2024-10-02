@@ -14,6 +14,7 @@
         <module>refactoring-example</module>
         <module>test-custom-di</module>
         <module>lombok-demo</module>
+        <module>magic-moja</module>
     </modules>
 
     <properties>
