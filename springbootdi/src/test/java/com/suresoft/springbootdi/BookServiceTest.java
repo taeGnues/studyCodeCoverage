@@ -1,5 +1,8 @@
 package com.suresoft.springbootdi;
 
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import java.lang.reflect.Proxy;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BookServiceTest {
+
     BookService bookService = (BookService) Proxy.newProxyInstance(
             BookService.class.getClassLoader(),
             new Class[]{BookService.class},
@@ -31,13 +35,6 @@ class BookServiceTest {
             }
 
     ); // 이걸 Spring에서 편하게 쓰기 위해 도입된 것이 proxy 기반의 Spring AOP임!
-
-//    @Test
-//    public void di() {
-//        assertNotNull(bookService);
-//        assertNotNull(bookService.bookRepository);
-//        // Spring이 bean을 만들어서 service에 넣었는지 확인하기.
-//    }
 
     @Test
     public void rent(){
