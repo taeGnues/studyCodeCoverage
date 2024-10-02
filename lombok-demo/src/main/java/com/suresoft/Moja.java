@@ -1,6 +1,6 @@
 package com.suresoft;
 
-//@Magic
+@Magic
 public interface Moja {
     String pullOut();
 }
